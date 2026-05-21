@@ -15,7 +15,6 @@ from typing import Optional, Sequence
 
 _BIN_DIR = Path(__file__).resolve().parent.parent / "bin"
 
-
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
@@ -55,7 +54,6 @@ def _get_executable(name: str) -> Path:
             f"See bin/README.md for instructions on obtaining proprietary tools."
         )
     return exe
-
 
 def _run_executable(
     exe: Path,
@@ -101,3 +99,32 @@ def _run_executable(
         )
 
     return stdout, stderr
+
+# ---------------------------------------------------------------------------
+# Wrappers
+# ---------------------------------------------------------------------------
+
+def run_snake_VOI_extractor(
+        CT_dir : str, 
+        interfile_dir : str, 
+        output_dir : str):
+    """
+    Extracts the image-derived input function of a dynamic PET scan. 
+
+    Parameters
+    ----------
+    CT_dir : str
+        Absolute path to CT directory containing dicom files.
+    interfile_dir : str
+        Absolute path to directory containing interfiles and interfile headers for each dynamic frame.
+    output_dir : str
+        Absolute path to where the outpu image-derived input function will be saved.
+
+    Reference
+    ----------
+    Y. Tao, Z. Peng, A. Krishnan and X. S. Zhou, "Robust Learning-Based Parsing and Annotation of Medical Radiographs," 
+    in IEEE Transactions on Medical Imaging, vol. 30, no. 2, pp. 338-350, Feb. 2011, doi: 10.1109/TMI.2010.2077740.
+    
+    """
+    exe = _get_executable("getPetSnake")
+    stdout, stderr = _run_executable(exe, [CT_dir, interfile_dir, output_dir])

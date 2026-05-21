@@ -22,8 +22,8 @@ the `_get_executable()` helper.
 
 ## What belongs here
 
-| File | Description | How to obtain |
-|---|---|---|
+| File | Description | How to obtain | Reference |
+|getPetSnake.exe|Executable deriving an input-function from the dynamic PET images.|Siemens Healthineers|Y. Tao, Z. Peng, A. Krishnan and X. S. Zhou, "Robust Learning-Based Parsing and Annotation of Medical Radiographs," in IEEE Transactions on Medical Imaging, vol. 30, no. 2, pp. 338-350, Feb. 2011, doi: 10.1109/TMI.2010.2077740.|
 | *(to be documented as tools are integrated)* | | |
 
 Add a row for each binary as you integrate it into `prototype_bridge/bridge.py`.
