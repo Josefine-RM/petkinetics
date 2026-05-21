@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "petkinetics"
+version = "0.1.0"
+description = "A Python package for kinetic modelling of dynamic PET data, including graphical analysis, model selection, TAC simulation, and prototype model bridging."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Josefine Rosenskjold Madsen", email = "jrm@clin.au.dk" }]
+keywords = [
+    "PET",
+    "kinetic modelling",
+    "dynamic PET",
+    "Logan plot",
+    "Patlak plot",
+    "graphical analysis",
+    "time-activity curve",
+    "parametric imaging",
+    "medical imaging",
+    "pharmacokinetics",
+    "neuroimaging",
+    "oncology",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Image Science Apps.",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
+    "medimkit>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "black",
+    "ruff",
+    "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/Josefine-RM/petkinetics"
+"Bug Tracker" = "https://github.com/Josefine-RM/petkinetics/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["petkinetics*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

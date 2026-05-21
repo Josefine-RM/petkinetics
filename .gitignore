@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Virtual environments
+.env
+.venv
+*env/
+*venv/
+*ENV/
+env.bak/
+venv.bak/
+
+# Tests
+test.ipynb
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Medical imaging data — never commit patient data
+*.dcm
+*.nii
+*.nii.gz
+*.v
+*.hdr
+*.img
+data/
+raw/
+scratch/
+
+# MATLAB
+*.m~
+*.asv
+*.mex*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+# Proprietary executables — not for redistribution
+petkinetics/bin/*.exe
+petkinetics/bin/*.dll
