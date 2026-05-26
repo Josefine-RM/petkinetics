@@ -60,5 +60,6 @@ Thumbs.db
 
 
 # Proprietary executables — not for redistribution
-petkinetics/bin/*.exe
-petkinetics/bin/*.dll
+petkinetics/bin/exe/*
+petkinetics/bin/DLL/*
+petkinetics/bin/py/*

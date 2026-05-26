@@ -47,7 +47,7 @@ def _get_executable(name: str) -> Path:
     >>> print(exe)
     /path/to/petkinetics/bin/SH_prototype.exe
     """
-    exe = _BIN_DIR / name
+    exe = _BIN_DIR / "exe" / name
     if not exe.exists():
         raise FileNotFoundError(
             f"Executable '{name}' not found in {_BIN_DIR}. "
@@ -126,5 +126,44 @@ def run_snake_VOI_extractor(
     in IEEE Transactions on Medical Imaging, vol. 30, no. 2, pp. 338-350, Feb. 2011, doi: 10.1109/TMI.2010.2077740.
     
     """
-    exe = _get_executable("getPetSnake")
+    exe = _get_executable("getPetSnake.exe")
     stdout, stderr = _run_executable(exe, [CT_dir, interfile_dir, output_dir])
+
+def export_raw2dcm(raw,dicom):
+
+    """
+    Converts a .raw image to a DICOM volume. 
+
+    Parameters
+    ----------
+    raw : str
+        Absolute path to .raw image.
+    dicom : str
+        Absolute path to reference dicom directory.
+    """
+    exe = _get_executable('rawToDICOM.exe')
+    stdout, stderr = _run_executable(exe, [raw,dicom])
+
+def simulate_tac(param_file, bif, output):
+
+    """
+    Simulates TAC with defined params file
+
+    Parameters
+    ----------
+    param_file : str
+        Absolute path to parameter textfile
+    bif : str
+        Absolute path blood input-function file
+    output : str
+        Absolute path output file containing simulation
+
+    Reference
+    ----------
+    https://www.turkupetcentre.net/tpcclib-doc/v2/sim__3tcm_8c.html
+    """
+
+    exe = _get_executable('sim_3tcm.exe')
+    vvm = 'none'
+    
+    _run_executable(exe, [param_file, bif, vvm, output])
