@@ -8,6 +8,7 @@ import sys
 import matplotlib.pyplot as plt
 import subprocess
 import math as ma
+import hashlib
 from contextlib import contextmanager
 from itertools import islice
 from petkinetics.model_fitting import model_fitting as mf 
@@ -375,8 +376,15 @@ def _worker(task: dict) -> dict | None:
     for noise_idx, noise_level in enumerate(task['noise_list']):
 
         if noise_level > 0:
+            seed = int(
+                hashlib.md5(
+                    f"{task['i']}_{task['j']}_{task['l']}_{task['m']}_{noise_idx}".encode()
+                ).hexdigest(),
+                16
+            ) % (2**31)
+
             activity = _apply_relative_noise(
-                activity_clean, noise_level, seed = int(42 + noise_idx * 10000 + task['i'] * 100 + task['j'])
+                activity_clean, noise_level, seed = seed
             )
         else:
             activity = activity_clean
