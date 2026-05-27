@@ -23,14 +23,15 @@ the `_get_executable()` helper.
 ## What belongs here
 
 | File | Description | How to obtain | Reference |
-|exe/getPetSnake.exe| Executable deriving an input-function from the dynamic PET images.| Siemens Healthineers| Y. Tao, Z. Peng, A. Krishnan and X. S. Zhou, "Robust Learning-Based Parsing and Annotation of Medical Radiographs," in IEEE Transactions on Medical Imaging, vol. 30, no. 2, pp. 338-350, Feb. 2011, doi: 10.1109/TMI.2010.2077740.|
+|---|---|---|---|
+| exe/getPetSnake.exe | Executable deriving an input-function from the dynamic PET images. | Siemens Healthineers | Y. Tao, Z. Peng, A. Krishnan and X. S. Zhou, "Robust Learning-Based Parsing and Annotation of Medical Radiographs," in IEEE Transactions on Medical Imaging, vol. 30, no. 2, pp. 338-350, Feb. 2011, doi: 10.1109/TMI.2010.2077740. |
 | exe/rawToDICOM.exe | Executable converting a .raw image to a DICOM volume | Siemens Healthineers | - |
 | exe/patlak.exe | Executable calculating the net influx (uptake) rate constant Ki (ml/(min*ml)) as slope of the Patlak plot from regional PET time-activity curves. | Turku PET Centre | https://www.turkupetcentre.net/programs/doc/patlak.html |
 | exe/logan.exe | Executable calculating the distribution volume (Vt) as slope of the Logan plot from regional PET time-activity curves. | Turku PET Centre | https://www.turkupetcentre.net/programs/doc/logan.html |
 | exe/sim_3tcm.exe | Simulation of PET tissue time-radioactivity concentration curves (TACs) from arterial plasma (Ca) and blood (Cb) TACs, based on three-tissue compartmental model, where the compartments are in series | Turku PET Centre | https://www.turkupetcentre.net/tpcclib-doc/v2/sim__3tcm_8c_source.html |
-| py/dLogan/dLogan_fits.py | .py containing code for dLogan and additional Logan prototypes | Siemens Healthineers | Madsen JR, Danielsen PB, Dias AH, Gormsen LC, Rodell AB, Panin V, Pigg D, Spottiswoode B, Munk OL. Whole-body parametric PET/CT imaging of the total distribution volume using a new reversible delayed Logan model. EJNMMI Phys. 2026 Mar 12;13(1):40. doi: 10.1186/s40658-026-00853-9.| - |
-| py/Patlak/Patlak_fits.py | .py containing code for Patlak prototypes | Siemens Healthineers |
-| *(to be documented as tools are integrated)* | | |
+| py/dLogan/dLogan_fits.py | .py containing code for dLogan and additional Logan prototypes | Siemens Healthineers | Madsen JR, Danielsen PB, Dias AH, Gormsen LC, Rodell AB, Panin V, Pigg D, Spottiswoode B, Munk OL. Whole-body parametric PET/CT imaging of the total distribution volume using a new reversible delayed Logan model. EJNMMI Phys. 2026 Mar 12;13(1):40. doi: 10.1186/s40658-026-00853-9. |
+| py/Patlak/Patlak_fits.py | .py containing code for Patlak prototypes | Siemens Healthineers | - |
+| *(to be documented as tools are integrated)* | | | |
 
 
 Add a row for each binary as you integrate it into `prototype_bridge/bridge.py`.
