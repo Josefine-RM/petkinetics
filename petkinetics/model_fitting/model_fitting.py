@@ -16,13 +16,18 @@ from petkinetics.prototype_bridge import bridge
 
 kiStart_glob = 0.005
 vdStart_glob = 0.1
-kiBounds_glob = [0.0001, 0.5]
-vdBounds_glob = [0.0001, 2.0]
+kiBounds_glob = [0.0001, 4]
+vdBounds_glob = [0.0001, 40]
+
+# kiStart_glob = 0.02
+# vdStart_glob = 0.2
+# kiBounds_glob = [0.0001, 0.5]
+# vdBounds_glob = [0.0001, 2]
 
 K1start_glob = 0.1
 K2start_glob = 0.1
-K1bounds_glob = [0.01,2]
-K2bounds_glob = [0.01,20]
+K1bounds_glob = [0.01,4]
+K2bounds_glob = [0.01,40]
 
 alphastart_glob = 1.0
 betarstart_glob = -10.0
@@ -93,8 +98,12 @@ def Patlak_tStar(tacFile : str,
         vdStart : float = None,
         kiBounds : int = None, 
         vdBounds : np.ndarray = None, 
-        figFlag : bool =True,
-        linear : bool = True):
+        genPatlakFlag : bool = False, 
+        cgnFlag : bool = False, 
+        vdConstraintFlag : bool = False, 
+        nonLinearPatlakFlag : bool = False, 
+        figFlag : bool = True
+):
     """
     Fits Ki and Vd using Patlak tStar prototype
 
@@ -133,7 +142,13 @@ def Patlak_tStar(tacFile : str,
     if not kiStart and not vdStart and not kiBounds and not vdBounds:
         kiStart, vdStart, kiBounds, vdBounds = kiStart_glob, vdStart_glob, kiBounds_glob, vdBounds_glob
 
-    return patlak.Patlak_tStar(tacFile, bifFile, kiStart, vdStart, kiBounds, vdBounds, figFlag=figFlag, linear=linear)
+    return patlak.Patlak_tStar(tacFile = tacFile, bifFile = bifFile,
+                               kiStart = kiStart, vdStart = vdStart, 
+                               kiBounds = kiBounds, vdBounds = vdBounds,
+                               genPatlakFlag = genPatlakFlag, cgnFlag = cgnFlag,
+                               vdConstraintFlag = vdConstraintFlag, 
+                               nonLinearPatlakFlag = nonLinearPatlakFlag,
+                               figFlag = figFlag)
 
 def Patlak_tZero(tacFile : str, 
         bifFile : str, 
@@ -306,7 +321,7 @@ def _prep_parametric_folder(src):
     Organises parametric directory if necessary.
     """
 
-    approved_dirs = ["bif.txt", "dicoms", "sliceTimes", "volumes", "Logan", "Patlak","prev", "SUV", "frameTimes.txt","bifSS.txt"]
+    approved_dirs = ["bif.txt", "dicoms", "sliceTimes", "volumes", "Logan", "Patlak","prev", "SUV", "frameTimes.txt","bifSS.txt",'npys']
     lst = os.listdir(src)
     fold = []
     fold = [obj for obj in lst if not [app_dir for app_dir in approved_dirs if app_dir in obj]]
@@ -342,7 +357,7 @@ def _run_exe(modelExe, src, initVals, slpLim, intcptLim, itr, flag, opt):
 
     with open(ITF, 'w') as f:
         f.write(src+'\n'+initVals+'\n'+ slpLim +'\n'+ intcptLim +'\n'+ itr +'\n'+ flag)  
-    command = modelExe + " " + ITF + " " + opt
+    command = str(modelExe) + " " + str(ITF) + " " + opt
 
     with open(log, 'w') as f:
         f.write(f"Timestamp: {datetime.now()}\n\nExecutable: {modelExe}\nInitial values: {initVals}\nSlope Limits: {slpLim}\nIntercept Limits: {intcptLim}\nIterations: {itr}\n\nCommand: {command}")  
@@ -354,6 +369,8 @@ def _export_err2dcm(src):
     """
     Exports error from .raw image to dicom
     """
+    raw     = None
+    dicom   = None
     for folders in os.listdir(src): 
         current = os.path.join(src, folders)
         if 'Error' in current and '.raw' in current and os.path.isfile(current):
@@ -363,9 +380,9 @@ def _export_err2dcm(src):
         if 'Vd_' in current and os.path.isdir(current):
             dicom = current
 
-        if raw and dicom: continue
-    
-    bridge.exportErr2dcm(raw,dicom)
+        if raw and dicom: 
+            bridge.export_raw2dcm(raw,dicom)
+            continue
 
 def _organise_parametric_folder(src, model, type, cm,  alphaStart, betaStart):
 
@@ -373,7 +390,7 @@ def _organise_parametric_folder(src, model, type, cm,  alphaStart, betaStart):
     Organises new parametric folders and files.
     """
 
-    approved_dirs = ["bif.txt", "dicoms", "sliceTimes", "volumes", "Logan", "Patlak","prev", "SUV", "frameTimes.txt","bifSS.txt"]
+    approved_dirs = ["bif.txt", "dicoms", "sliceTimes", "volumes", "Logan", "Patlak","prev", "SUV", "frameTimes.txt","bifSS.txt", "npys"]
     lst = os.listdir(src)
     fold = []
     fold = [obj for obj in lst if not [app_dir for app_dir in approved_dirs if app_dir == obj]]

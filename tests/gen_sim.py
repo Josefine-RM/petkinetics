@@ -1,4 +1,4 @@
-from petkinetics.tac_simulation import tac_simulation as sim_func
+from petkinetics.simulation import simulation as sim_func
 import numpy as np
 
 """

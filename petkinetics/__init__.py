@@ -19,7 +19,7 @@ __author__ = "Josefine Rosenskjold Madsen"
 from petkinetics import (
     model_fitting,
     model_selection,
-    tac_simulation,
+    simulation,
     prototype_bridge,
     input_functions,
 

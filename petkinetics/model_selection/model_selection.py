@@ -100,7 +100,7 @@ def calculate_AICc(model1_sse: np.ndarray, model2_sse: np.ndarray, n: int, k1: i
     model2_aicc = n * np.log(model2_sse / n) + 2 * k2 + c2
     return model1_aicc, model2_aicc
 
-def calculate_delta_map(model1_sse: np.ndarray, model2_sse: np.ndarray, n: int, k: int, corrected_form = False) -> np.ndarray:
+def calculate_delta_map(model1_sse: np.ndarray, model2_sse: np.ndarray, n: int, k1: int, k2: int, corrected_form = False) -> np.ndarray:
     """
     Compute a voxelwise ΔAIC map between two competing kinetic models.
 
@@ -133,7 +133,7 @@ def calculate_delta_map(model1_sse: np.ndarray, model2_sse: np.ndarray, n: int, 
 
         
     """
-    model1_aic, model2_aic = calculate_AIC(model1_sse, model2_sse, n, k)
+    model1_aic, model2_aic = calculate_AIC(model1_sse, model2_sse, n, k1, k2)
     return np.subtract(model1_aic, model2_aic)
 
 def createErrorMap(model1_sse: np.ndarray, model2_sse: np.ndarray) -> np.ndarray:

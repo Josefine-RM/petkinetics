@@ -19,9 +19,13 @@ _DATA_DIR = Path(__file__).resolve().parent / "data"
 # ---------------------------------------------------------------------------
 
 def _write_tac(time, activity, dst):
-    with open (dst,'a') as proc_seqf:                   # Create and open txt file with the given path
-        for t, a in zip(time, activity):       # For every value in the given x- and y-values:
-            proc_seqf.write("{}\t{}\n".format(t, a[0]))    # Write the x- and y-values seperated by a tab followed by a new line
+    with open (dst,'a') as proc_seqf:                       # Create and open txt file with the given path
+        for t, a in zip(time, activity):                    # For every value in the given x- and y-values:
+            try:
+                proc_seqf.write("{}\t{}\n".format(t, a[0])) # Write the x- and y-values seperated by a tab followed by a new line
+            except:
+                proc_seqf.write("{}\t{}\n".format(t, a))    # Write the x- and y-values seperated by a tab followed by a new line
+
 
 def _plot_sPBIF(time, activity, dst):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5),gridspec_kw={'width_ratios': [6,4]})
@@ -137,15 +141,7 @@ def gen_sPBIF(
     Sep 8;9(1):60. doi: 10.1186/s40658-022-00490-y.
     """
     # ---- Load PBIF ------------------------------------------------
-    PB_Time, PB_activity = [], []
-    with open(_DATA_DIR / "dias2022_PBIF.txt", "r") as f:
-        lines=f.readlines(); lines = lines[1:len(lines)]
-        for x in lines:
-            PB_Time.append(float(x.split('\t')[0]))
-            PB_activity.append(float(x.split('\t')[1]))
-
-    PB_Time = np.array(PB_Time); 
-    PB_activity = np.array(PB_activity); 
+    PB_Time, PB_activity = read_tac_txt(_DATA_DIR / "dias2022_PBIF.txt")
     
     # ---- Scale PBIF ----------------------------------------------
 
@@ -171,3 +167,38 @@ def gen_sPBIF(
             print({e})
 
     return PB_Time, sPBIF_activity
+
+def read_tac_txt(src):
+    time, activity = [], []
+    try:
+        with open(src, "r") as f:
+            lines=f.readlines()
+            for x in lines:
+                try:
+                    time.append(float(x.split('\t')[0]))
+                    activity.append(float(x.split('\t')[1]))
+                except:
+                    time.append(float(x.split(' ')[0]))
+                    activity.append(float(x.split(' ')[1]))
+
+        return np.array(time), np.array(activity)
+    except:
+        with open(src, "r") as f:
+            lines=f.readlines()
+            for i, x in enumerate(lines):
+                if i == 0: continue
+                time.append(float(x.split('\t')[0]))
+                activity.append(float(x.split('\t')[1]))
+
+        return np.array(time), np.array(activity)
+    
+
+def interpolate_tac(time, activity, dst=None):
+
+    intpl_time = range(0, round(np.max(time)))
+    intpl_activity = np.interp(intpl_time, time, activity, left=None, right=None, period=None)
+    
+    if dst:
+        _write_tac(intpl_time, intpl_activity, dst)
+    else:
+        return intpl_time, intpl_activity

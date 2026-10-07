@@ -7,7 +7,7 @@ from __future__ import annotations
 from pathlib import Path
 from subprocess import Popen, PIPE
 from typing import Optional, Sequence
-
+import os 
 
 # ---------------------------------------------------------------------------
 # Locate the bin/ directory
@@ -85,8 +85,13 @@ def _run_executable(
     RuntimeError
         If the process exits with a non-zero code and *check* is ``True``.
     """
+
+    env = os.environ.copy()
+    env['MPLBACKEND'] = 'Agg'  # prevent GUI backend conflict
+
+
     command = [str(exe)] + list(args)
-    process = Popen(command, stdout=PIPE, stderr=PIPE)
+    process = Popen(command, stdout=PIPE, stderr=PIPE, env=env)
     stdout_bytes, stderr_bytes = process.communicate()
 
     stdout = stdout_bytes.decode("utf-8", errors="replace")
